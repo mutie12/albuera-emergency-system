@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Respondent Auto-Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #c0392b 0%, #a93226 50%, #922b21 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .container {
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    .btn {
+      background: white;
+      color: #c0392b;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚨 Albuera Poblacion Emergency</h1>
+    <p>Click below to login as Respondent automatically</p>
+    <button class="btn" onclick="loginAsRespondent()">Login as Respondent</button>
+  </div>
+
+  <script>
+    function loginAsRespondent() {
+      localStorage.setItem('token', 'respondent-token');
+      localStorage.setItem('role', 'respondent');
+      localStorage.setItem('name', 'First Responder');
+      window.location.href = '/dashboard';
+    }
+  </script>
+</body>
+</html>

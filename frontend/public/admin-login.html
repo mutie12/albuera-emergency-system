@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Auto-Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .container {
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      opacity: 0.8;
+    }
+    .btn {
+      background: #e94560;
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn:hover {
+      background: #c73652;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚨 Albuera Poblacion EMS</h1>
+    <p>Click below to login as Admin automatically</p>
+    <button class="btn" onclick="loginAsAdmin()">Login as Admin</button>
+  </div>
+
+  <script>
+    function loginAsAdmin() {
+      // Set admin credentials in localStorage
+      localStorage.setItem('token', 'admin-token');
+      localStorage.setItem('role', 'admin');
+      localStorage.setItem('name', 'Administrator');
+      
+      // Redirect to dashboard
+      window.location.href = '/dashboard';
+    }
+  </script>
+</body>
+</html>
