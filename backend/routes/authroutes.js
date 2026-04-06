@@ -480,15 +480,23 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
+    console.log("Login attempt for username:", username);
 
     if (!username || !password) {
       return res.status(400).json({ message: "Username and password are required" });
     }
 
     const user = await User.findOne({ username });
-    if (!user) return res.status(400).json({ message: "User not found" });
+    if (!user) {
+      console.log("User not found:", username);
+      return res.status(400).json({ message: "User not found" });
+    }
 
+    console.log("User found:", user.username, "role:", user.role, "status:", user.status);
+    
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log("Password match:", isMatch);
+
     if (!isMatch) return res.status(400).json({ message: "Wrong password" });
 
     // Check if user is approved (for residents)

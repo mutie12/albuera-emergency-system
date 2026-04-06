@@ -7,6 +7,7 @@ function ResidentLayout({ children }) {
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [myMessages, setMyMessages] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const userName = localStorage.getItem("name");
@@ -90,7 +91,15 @@ function ResidentLayout({ children }) {
 
   return (
     <div className="resident-layout" style={{ display: "flex", minHeight: "100vh" }}>
-      <aside className="sidebar" style={{ background: '#ffffff', boxShadow: '2px 0 10px rgba(0,0,0,0.1)', width: '300px', minWidth: '300px' }}>
+      <aside className="sidebar" style={{ 
+        background: '#ffffff', 
+        boxShadow: '2px 0 10px rgba(0,0,0,0.1)', 
+        width: '300px', 
+        minWidth: '300px',
+        position: "fixed",
+        height: "100vh",
+        zIndex: 100
+      }}>
         <div className="sidebar-header" style={{ padding: '24px 20px', borderBottom: '1px solid #e5e7eb' }}>
           <div className="logo">
             <img src="/logo.webp" alt="Logo" style={{ width: '180px', height: '180px', objectFit: 'contain', borderRadius: '12px' }} />
@@ -207,9 +216,18 @@ function ResidentLayout({ children }) {
         </div>
       </aside>
 
-      <main className="main-content">
+      <main className="main-content" style={{ marginLeft: "300px", flex: 1 }}>
         <div className="main-header" style={{ padding: '20px 24px', borderBottom: '1px solid #e5e7eb', background: 'white', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1f2937' }}>{location.pathname === "/profile" ? "👤 My Profile" : "🏠 Resident Dashboard"}</h1>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <button 
+              className="btn btn-secondary mobile-menu-toggle"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              style={{ padding: "8px 12px", display: "none" }}
+            >
+              ☰
+            </button>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1f2937' }}>{location.pathname === "/profile" ? "👤 My Profile" : "🏠 Resident Dashboard"}</h1>
+          </div>
           <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
             <button onClick={fetchReports} className="btn btn-secondary" title="Refresh">
               🔄

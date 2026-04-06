@@ -1,12 +1,12 @@
 // Load environment variables (MUST be first)
 require("dotenv").config();
 
-// Use Google DNS to resolve MongoDB Atlas hostnames
 const dns = require("dns");
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const express = require("express");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 const cors = require("cors");
 
 // Import routes
@@ -49,6 +49,33 @@ app.get("/", (req, res) => {
 // Health check for Render
 app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
+// Debug endpoint to create default admin (remove in production)
+app.get("/setup-admin", async (req, res) => {
+  try {
+    const User = require("./models/user");
+    const bcrypt = require("bcryptjs");
+    
+    const existingAdmin = await User.findOne({ username: "admin" });
+    
+    if (existingAdmin) {
+      return res.json({ message: "Admin already exists", username: existingAdmin.username });
+    }
+    
+    const hashedPassword = await bcrypt.hash("admin123", 10);
+    const admin = await User.create({
+      name: "Administrator",
+      username: "admin",
+      password: hashedPassword,
+      role: "admin",
+      status: "approved"
+    });
+    
+    res.json({ message: "Admin created", username: "admin", password: "admin123" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Global error handler

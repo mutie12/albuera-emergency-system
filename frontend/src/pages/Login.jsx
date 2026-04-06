@@ -16,6 +16,7 @@ function Login() {
 
     try {
       const res = await api.post("/auth/login", { username, password });
+      console.log("Login response:", res.data);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.role);
       localStorage.setItem("name", res.data.name);
@@ -30,6 +31,7 @@ function Login() {
         navigate("/dashboard");
       }
     } catch (err) {
+      console.error("Login error:", err.response?.data);
       const errorMsg = err.response?.data?.message || "Login failed. Please try again.";
       const status = err.response?.data?.status;
       

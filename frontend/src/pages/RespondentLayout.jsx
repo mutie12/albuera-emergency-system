@@ -6,6 +6,7 @@ function RespondentLayout({ children }) {
   const [reports, setReports] = useState([]);
   const [notifications, setNotifications] = useState([]); 
   const [showNotifications, setShowNotifications] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const userName = localStorage.getItem("name");
@@ -86,7 +87,7 @@ function RespondentLayout({ children }) {
 
   return (
     <div className="resident-layout respondent-layout" style={{ display: "flex", minHeight: "100vh" }}>
-      <aside className="sidebar">
+      <aside className="sidebar" style={{ position: "fixed", width: "280px", height: "100vh", zIndex: 100 }}>
         <div className="sidebar-header">
           <div className="logo">
             <img src="/logo.webp" alt="Logo" style={{ width: '260px', height: '200px', objectFit: 'contain', borderRadius: '8px' }} />
@@ -158,9 +159,18 @@ function RespondentLayout({ children }) {
         </div>
       </aside>
 
-      <main className="main-content" style={{ paddingLeft: "64px", paddingRight: "24px" }}>
+      <main className="main-content" style={{ marginLeft: "280px", flex: 1, padding: "0 24px" }}>
         <div className="main-header">
-          <h1>🚑 Respondent Dashboard</h1>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <button 
+              className="btn btn-secondary mobile-menu-toggle"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              style={{ padding: "8px 12px", display: "none" }}
+            >
+              ☰
+            </button>
+            <h1>🚑 Respondent Dashboard</h1>
+          </div>
           <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
             <button onClick={fetchReports} className="btn btn-secondary" title="Refresh">
               🔄

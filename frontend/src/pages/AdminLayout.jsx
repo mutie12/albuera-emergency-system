@@ -7,6 +7,7 @@ function AdminLayout({ children }) {
   const [unreadCount, setUnreadCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const userName = localStorage.getItem("name");
@@ -77,8 +78,27 @@ function AdminLayout({ children }) {
 
   return (
     <div className="resident-layout admin-layout" style={{ display: "flex", minHeight: "100vh" }}>
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div 
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            zIndex: 99,
+            display: "none"
+          }}
+          className="mobile-overlay"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+      
       {/* Sidebar */}
-      <aside className="sidebar">
+      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`} style={{ 
+        position: "fixed",
+        zIndex: 100,
+        transition: "transform 0.3s ease"
+      }}>
         <div className="sidebar-header">
           <div className="logo">
             <img src="/logo.webp" alt="Logo" style={{ width: '240px', height: '200px', objectFit: 'contain', borderRadius: '8px' }} />
@@ -197,10 +217,27 @@ function AdminLayout({ children }) {
       
      
       {/* Main Content */}
-      <main className="main-content" style={{ padding: "0 16px", flex: 1, display: "flex", gap: "16px", overflow: "hidden" }}>
+      <main className="main-content" style={{ 
+        padding: "0 16px", 
+        flex: 1, 
+        display: "flex", 
+        gap: "16px", 
+        overflow: "hidden",
+        marginLeft: "280px"
+      }}>
         {/* Header */}
         <div className="main-header">
-          <center></center><h1>🛡️ Admin Dashboard</h1>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <button 
+              className="btn btn-secondary"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              style={{ padding: "8px 12px", display: "none" }}
+              id="mobile-menu-btn"
+            >
+              ☰
+            </button>
+            <h1>🛡️ Admin Dashboard</h1>
+          </div>
           <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
             {/* Notifications */}
             <div style={{ position: "relative" }}>
